@@ -13,6 +13,9 @@ function Inscricao() {
     difficulty: ''
   });
 
+  const [isSubmitting, setIsSubmitting] = useState(false);
+  const [submitError, setSubmitError] = useState('');
+
   // Contador regressivo - definir data do workshop (01 de outubro às 19h30)
   const workshopDate = new Date('2025-10-01T19:30:00-03:00');
   const [timeLeft, setTimeLeft] = useState({
@@ -21,6 +24,11 @@ function Inscricao() {
     minutes: 0,
     seconds: 0
   });
+
+  useEffect(() => {
+    // Scroll para o topo da página
+    window.scrollTo(0, 0);
+  }, []);
 
   useEffect(() => {
     const timer = setInterval(() => {
@@ -44,34 +52,64 @@ function Inscricao() {
 
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
+    setIsSubmitting(true);
+    setSubmitError('');
     
     // URL do seu Google Apps Script
     const GOOGLE_SCRIPT_URL = 'https://script.google.com/macros/s/AKfycbwL16-FRsEaFD6ISnSFgvso-oWTe9xskB9own2JzWBS2f-B8Jdxzxto9E3jMif7Dgp5/exec';
     
     try {
+      console.log('📤 Enviando dados:', formData);
+      
+      // Primeira tentativa: com timeout mais longo
+      const controller = new AbortController();
+      const timeoutId = setTimeout(() => controller.abort(), 15000); // 15 segundos
+      
       await fetch(GOOGLE_SCRIPT_URL, {
         method: 'POST',
         headers: {
           'Content-Type': 'application/json',
         },
         body: JSON.stringify(formData),
+        signal: controller.signal,
         mode: 'no-cors' // Necessário para Google Apps Script
       });
+      
+      clearTimeout(timeoutId);
+      console.log('✅ Dados enviados com sucesso');
       
       // Disparar eventos de conversão
       trackEvent.trackFormSubmission();
       
-      // Redirecionar para página de obrigado
-      navigate('/obrigado', { 
-        state: { 
-          name: formData.name,
-          email: formData.email 
-        } 
-      });
+      // Pequeno delay para garantir que o envio foi processado
+      setTimeout(() => {
+        // Redirecionar para página de obrigado
+        navigate('/obrigado', { 
+          state: { 
+            name: formData.name,
+            email: formData.email 
+          } 
+        });
+      }, 1000);
       
     } catch (error) {
-      console.error('Erro ao enviar dados:', error);
-      alert('Erro ao realizar inscrição. Tente novamente.');
+      console.error('❌ Erro ao enviar dados:', error);
+      setIsSubmitting(false);
+      
+      if (error instanceof Error && error.name === 'AbortError') {
+        setSubmitError('Timeout: A requisição demorou muito. Mas seus dados podem ter sido salvos. Verifique sua inscrição.');
+        // Ainda assim redireciona após timeout (dados podem ter sido salvos)
+        setTimeout(() => {
+          navigate('/obrigado', { 
+            state: { 
+              name: formData.name,
+              email: formData.email 
+            } 
+          });
+        }, 3000);
+      } else {
+        setSubmitError('Erro ao realizar inscrição. Verifique sua conexão e tente novamente.');
+      }
     }
   };
 
@@ -304,12 +342,34 @@ function Inscricao() {
                   placeholder="Compartilhe conosco sua principal dificuldade..."
                 />
               </div>
+              
+              {/* Mensagem de erro */}
+              {submitError && (
+                <div className="bg-red-50 border border-red-200 rounded-lg p-4 text-red-700">
+                  <p className="font-medium">⚠️ {submitError}</p>
+                </div>
+              )}
+              
               <button
                 type="submit"
-                className="w-full bg-gradient-to-r from-green-500 to-green-600 hover:from-green-600 hover:to-green-700 text-white py-4 px-8 rounded-lg text-lg font-semibold transition-all duration-300 transform hover:scale-105 shadow-lg"
+                disabled={isSubmitting}
+                className={`w-full py-4 px-8 rounded-lg text-lg font-semibold transition-all duration-300 transform shadow-lg ${
+                  isSubmitting 
+                    ? 'bg-gray-400 cursor-not-allowed' 
+                    : 'bg-gradient-to-r from-green-500 to-green-600 hover:from-green-600 hover:to-green-700 hover:scale-105'
+                } text-white`}
               >
-                Quero garantir minha vaga
-                <CheckCircle className="ml-2 h-5 w-5 inline" />
+                {isSubmitting ? (
+                  <>
+                    <div className="inline-block animate-spin rounded-full h-5 w-5 border-b-2 border-white mr-2"></div>
+                    Enviando inscrição...
+                  </>
+                ) : (
+                  <>
+                    Quero garantir minha vaga
+                    <CheckCircle className="ml-2 h-5 w-5 inline" />
+                  </>
+                )}
               </button>
             </form>
           </div>

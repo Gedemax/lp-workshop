@@ -10,6 +10,9 @@ function Obrigado() {
   const [showConfetti, setShowConfetti] = useState(true);
 
   useEffect(() => {
+    // Scroll para o topo da página
+    window.scrollTo(0, 0);
+    
     // Disparar evento de conversão adicional na página de obrigado
     trackEvent.facebookCompleteRegistration();
     
