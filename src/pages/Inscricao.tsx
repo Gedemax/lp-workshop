@@ -2,6 +2,7 @@ import React, { useState, useEffect } from 'react';
 import { Calendar, CheckCircle, X, Star, Users, ArrowRight, Phone, Mail, User } from 'lucide-react';
 import { useNavigate } from 'react-router-dom';
 import Tracking, { trackEvent } from '../components/Tracking';
+import SEO from '../components/SEO';
 
 function Inscricao() {
   const navigate = useNavigate();
@@ -81,8 +82,46 @@ function Inscricao() {
     });
   };
 
+  // Structured Data para SEO
+  const structuredData = {
+    "@context": "https://schema.org",
+    "@type": "Event",
+    "name": "Workshop Leitura Corporal - Como Atrair Clientes de Forma Natural",
+    "description": "Workshop gratuito online sobre como usar a Leitura Corporal para atrair clientes, criar confiança instantânea e viver da terapia.",
+    "startDate": "2025-10-01T19:30:00-03:00",
+    "endDate": "2025-10-01T21:00:00-03:00",
+    "eventStatus": "https://schema.org/EventScheduled",
+    "eventAttendanceMode": "https://schema.org/OnlineEventAttendanceMode",
+    "location": {
+      "@type": "VirtualLocation",
+      "url": "https://workshop.souterapeuta.pro"
+    },
+    "organizer": {
+      "@type": "Person",
+      "name": "Oneida Fernanda",
+      "description": "Terapeuta especialista em Leitura Corporal e criadora do Mapa da Personalidade"
+    },
+    "offers": {
+      "@type": "Offer",
+      "price": "0",
+      "priceCurrency": "BRL",
+      "availability": "https://schema.org/InStock",
+      "url": "https://workshop.souterapeuta.pro/inscricao"
+    },
+    "image": "https://workshop.souterapeuta.pro/og-image.jpg"
+  };
+
   return (
     <div className="min-h-screen bg-gradient-to-br from-purple-50 via-white to-pink-50">
+      {/* SEO Otimizado */}
+      <SEO 
+        title="Workshop Gratuito: Leitura Corporal para Atrair Clientes"
+        description="Descubra como usar a Leitura Corporal para atrair clientes de forma natural, criar confiança instantânea e viver da terapia. Workshop gratuito com Oneida Fernanda - 01/10 às 19h30."
+        keywords="leitura corporal, workshop gratuito, atrair clientes terapia, oneida fernanda, mapa da personalidade, terapeutas, desenvolvimento pessoal, confiança, marketing para terapeutas"
+        url="/inscricao"
+        structuredData={structuredData}
+      />
+      
       {/* Componente de Tracking */}
       <Tracking />
       {/* Hero Section */}
@@ -113,7 +152,7 @@ function Inscricao() {
               <div className="max-w-2xl mx-auto">
                 <div className="relative aspect-video rounded-2xl overflow-hidden shadow-2xl">
                   <iframe
-                    src="https://www.youtube.com/embed/a0vAeRynt4o"
+                    src="https://www.youtube.com/embed/dAGe3QWrvTk"
                     title="Workshop Leitura Corporal"
                     className="w-full h-full"
                     allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture"

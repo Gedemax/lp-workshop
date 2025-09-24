@@ -1,0 +1,23 @@
+User-agent: *
+Allow: /
+
+# Sitemap
+Sitemap: https://workshop.souterapeuta.pro/sitemap.xml
+
+# Principais páginas
+Allow: /inscricao
+Allow: /obrigado
+
+# Recursos estáticos
+Allow: /assets/
+Allow: /*.css
+Allow: /*.js
+Allow: /*.png
+Allow: /*.jpg
+Allow: /*.jpeg
+Allow: /*.gif
+Allow: /*.svg
+Allow: /*.ico
+
+# Crawl-delay para ser gentil com o servidor
+Crawl-delay: 1
