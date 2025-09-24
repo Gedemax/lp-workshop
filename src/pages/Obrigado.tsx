@@ -150,7 +150,7 @@ function Obrigado() {
               </div>
               
               <a 
-                href="https://chat.whatsapp.com/SEU_LINK_DO_GRUPO_AQUI" 
+                href="https://chat.whatsapp.com/DSEZRhtdEFECfsmBwi6HNB" 
                 target="_blank" 
                 rel="noopener noreferrer"
                 className="inline-flex items-center bg-white text-green-600 px-8 py-4 rounded-full text-xl font-bold transition-all duration-300 transform hover:scale-105 shadow-lg hover:shadow-xl mb-6"
