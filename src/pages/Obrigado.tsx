@@ -84,12 +84,28 @@ function Obrigado() {
             <p className="text-2xl lg:text-3xl text-orange-100 mb-8 font-bold animate-fade-in-delay">
               Sua inscrição está confirmada!
             </p>
-            <div className="bg-white/20 backdrop-blur-sm rounded-2xl p-6 max-w-2xl mx-auto">
+            <div className="bg-white/20 backdrop-blur-sm rounded-2xl p-6 max-w-2xl mx-auto mb-8">
               <p className="text-xl text-white mb-4 font-semibold">
                 Agora falta apenas <span className="text-orange-200 font-bold">1 passo</span>:
               </p>
               <p className="text-2xl font-bold text-orange-200">
                 Entrar no grupo exclusivo do WhatsApp! 📱
+              </p>
+            </div>
+            
+            {/* Botão WhatsApp na primeira seção */}
+            <div className="max-w-md mx-auto">
+              <a 
+                href="https://chat.whatsapp.com/DSEZRhtdEFECfsmBwi6HNB" 
+                target="_blank" 
+                rel="noopener noreferrer"
+                className="inline-flex items-center justify-center w-full bg-gradient-to-r from-green-500 to-emerald-600 hover:from-green-600 hover:to-emerald-700 text-white px-8 py-4 rounded-full text-xl font-bold transition-all duration-300 transform hover:scale-105 shadow-2xl animate-pulse"
+              >
+                <MessageCircle className="mr-3 h-6 w-6" />
+                ✅ Entrar no grupo agora
+              </a>
+              <p className="text-center text-white/80 text-sm mt-3 font-medium">
+                👆 Clique aqui para não perder nenhuma informação!
               </p>
             </div>
           </div>
